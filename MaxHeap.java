@@ -15,6 +15,25 @@ public final class MaxHeap<T extends Comparable<? super T>>
 	private static final int DEFAULT_CAPACITY = 25;
 	private static final int MAX_CAPACITY = 10000;
    
+   public void checkIntegrity() {
+		if (integrityOK == false) {
+			throw new SecurityException("Heap is corrupt");
+		}
+	}
+
+	public void checkCapacity(int capacity) {
+		if (capacity > MAX_CAPACITY) {
+			throw new IllegalStateException("Attempt to create maxheap " +
+					"capacity exeeds allowed maximum of " + MAX_CAPACITY);
+		}
+	}
+   public void ensureCapacity() {
+		if (lastIndex >= heap.length-1) {
+			int newLength = 2*heap.length;
+			checkCapacity(newLength);
+			heap = Arrays.copyOf(heap, newLength);
+		}
+	}
    public MaxHeap()
    {
       this(DEFAULT_CAPACITY); // Call next constructor
@@ -35,6 +54,20 @@ public final class MaxHeap<T extends Comparable<? super T>>
       lastIndex = 0;
       integrityOK = true;
    } // end constructor
+   public MaxHeap(T[] entries)
+   {
+      this(entries.length); //call other contructor
+      assert integrityOK = true;
+      //copy given array to data field
+      for (int index=0; index<entries.length; index++)
+         heap[index + 1] = entries[index];
+         //create heap
+      for (int rootIndex = lastIndex/2; rootIndex>0; rootIndex--)
+         reheap(rootIndex);
+   }
+
+
+
 
    public void add(T newEntry)
    {
@@ -99,7 +132,31 @@ public final class MaxHeap<T extends Comparable<? super T>>
       } // end while
       lastIndex = 0;
    } // end clear
-   
+private void reheap(int rootIndex)
+   {
+      boolean done = false;
+      T orphan = heap[rootIndex];
+      int leftChildIndex = 2 * rootIndex;
+      while (!done && (leftChildIndex <= lastIndex))
+         {
+            int largerChildIndex = leftChildIndex;
+            // Assume larger
+            int rightChildIndex = leftChildIndex + 1; 
+            if ( (rightChildIndex <= lastIndex) && heap[rightChildIndex] .compareTo(heap[largerChildIndex]) > 0)
+            {
+               largerChildIndex = rightChildIndex;
+            } // end if
+            if (orphan. compareTo(heap[largerChildIndex]) < 0)
+            {
+               heap[rootIndex] = heap[largerChildIndex];
+               rootIndex = largerChildIndex;
+               leftChildIndex = 2 * rootIndex;
+            }
+            else
+               done = true;
+         } // end while
+      heap[rootIndex] = orphan;
+   } // end reheap
 // Private methods
 // . . .
 } // end MaxHeap
