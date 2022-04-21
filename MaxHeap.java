@@ -12,7 +12,7 @@ public final class MaxHeap<T extends Comparable<? super T>>
    private T[] heap;      // Array of heap entries; ignore heap[0]
    private int lastIndex; // Index of last entry and number of entries
    private boolean integrityOK = false;
-   public char{} toString;
+   public char[] toString;
 	private static final int DEFAULT_CAPACITY = 25;
 	private static final int MAX_CAPACITY = 10000;
 	private int swaps=0;
