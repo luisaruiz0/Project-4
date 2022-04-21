@@ -12,8 +12,10 @@ public final class MaxHeap<T extends Comparable<? super T>>
    private T[] heap;      // Array of heap entries; ignore heap[0]
    private int lastIndex; // Index of last entry and number of entries
    private boolean integrityOK = false;
+   public char{} toString;
 	private static final int DEFAULT_CAPACITY = 25;
 	private static final int MAX_CAPACITY = 10000;
+	private int swaps=0;
    
    public void checkIntegrity() {
 		if (integrityOK == false) {
@@ -132,11 +134,11 @@ public final class MaxHeap<T extends Comparable<? super T>>
       } // end while
       lastIndex = 0;
    } // end clear
-private void reheap(int rootIndex)
+private void reheap(int random)
    {
       boolean done = false;
-      T orphan = heap[rootIndex];
-      int leftChildIndex = 2 * rootIndex;
+      T orphan = heap[random];
+      int leftChildIndex = 2 * random;
       while (!done && (leftChildIndex <= lastIndex))
          {
             int largerChildIndex = leftChildIndex;
@@ -148,15 +150,34 @@ private void reheap(int rootIndex)
             } // end if
             if (orphan. compareTo(heap[largerChildIndex]) < 0)
             {
-               heap[rootIndex] = heap[largerChildIndex];
-               rootIndex = largerChildIndex;
-               leftChildIndex = 2 * rootIndex;
+               heap[random] = heap[largerChildIndex];
+               random = largerChildIndex;
+               leftChildIndex = 2 * random;
+	       swaps++;
             }
             else
                done = true;
          } // end while
-      heap[rootIndex] = orphan;
+      heap[random] = orphan;
    } // end reheap
+   public String toString() {
+      String s = "";
+      for (int index = 1; index <= 10; index++){
+         s = s + heap[index];
+	 if (index!=10){
+	    s = s + ", ";
+	 }
+	 else{
+	    s = s + ",...";
+	 }
+      }
+      return s;
+   }
+   
+   public int getswaps()
+   {
+      return swaps;
+   }
 // Private methods
 // . . .
 } // end MaxHeap
