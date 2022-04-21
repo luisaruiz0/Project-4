@@ -63,6 +63,7 @@ public final class MaxHeap<T extends Comparable<? super T>>
       //copy given array to data field
       for (int index=0; index<entries.length; index++)
          heap[index + 1] = entries[index];
+      this.lastIndex= entries.length;
          //create heap
       for (int rootIndex = lastIndex/2; rootIndex>0; rootIndex--)
          reheap(rootIndex);
@@ -81,6 +82,7 @@ public final class MaxHeap<T extends Comparable<? super T>>
       heap[newIndex] = heap[parentIndex];
       newIndex = parentIndex;
       parentIndex = newIndex / 2;
+      swaps++;
    } // end while
 
    heap[newIndex] = newEntry;
